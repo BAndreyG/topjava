@@ -6,6 +6,7 @@ import ru.javawebinar.topjava.model.UserMealWithExceed;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,6 +27,23 @@ public class UserMealsUtil {
 
     public static List<UserMealWithExceed>  getFilteredWithExceeded(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
         // TODO return filtered list with correctly exceeded field
-        return null;
+        List<UserMealWithExceed> list=new ArrayList<>();
+        for (UserMeal userMeal:mealList) {
+            if (userMeal.getDateTime().toLocalTime().compareTo(startTime)==1){
+                if (userMeal.getDateTime().toLocalTime().compareTo(endTime)==-1)
+                    System.out.println(userMeal.getDescription());
+                    list.add(new UserMealWithExceed(userMeal.getDateTime(),userMeal.getDescription(),userMeal.getCalories(),true));
+            }
+        }
+        return list;
     }
 }
+//Реализовать метод UserMealsUtil.getFilteredWithExceeded через циклы (`forEach`):
+//-  должны возвращаться только записи между startTime и endTime
+//-  поле UserMealWithExceed.exceed должно показывать,
+//                                     превышает ли сумма калорий за весь день параметра метода caloriesPerDay
+//
+//Т.е UserMealWithExceed - это запись одной еды, но поле exceeded будет одинаково для всех записей за этот день.
+//
+//- Проверьте результат выполнения ДЗ (можно проверить логику в http://topjava.herokuapp.com , список еды)
+//- Оцените Time complexity алгоритма. Если она больше O(N), например O(N*N) или N*log(N), сделайте O(N).
