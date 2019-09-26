@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.util;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.model.UserMealWithExceed;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
@@ -28,11 +29,14 @@ public class UserMealsUtil {
     public static List<UserMealWithExceed>  getFilteredWithExceeded(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
         // TODO return filtered list with correctly exceeded field
         List<UserMealWithExceed> list=new ArrayList<>();
+        LocalDate day0=mealList.get(1).getDateTime().toLocalDate();
         for (UserMeal userMeal:mealList) {
+            if (userMeal.getDateTime().toLocalDate().compareTo(day0)==1){
+                if (userMeal.getDescription().equals("Завтрак")) UserMeal eat1=
+            }
             if (userMeal.getDateTime().toLocalTime().compareTo(startTime)==1){
                 if (userMeal.getDateTime().toLocalTime().compareTo(endTime)==-1)
-                    System.out.println(userMeal.getDescription());
-                    list.add(new UserMealWithExceed(userMeal.getDateTime(),userMeal.getDescription(),userMeal.getCalories(),true));
+                    list.add(new UserMealWithExceed(userMeal.getDateTime(),userMeal.getDescription(),userMeal.getCalories(),false));
             }
         }
         return list;
