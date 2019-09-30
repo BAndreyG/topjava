@@ -9,6 +9,7 @@ import java.time.LocalTime;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class UserMealsUtil {
@@ -27,37 +28,37 @@ public class UserMealsUtil {
     }
 
     public static List<UserMealWithExceed>  getFilteredWithExceeded(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
-        // TODO return filtered list with correctly exceeded field
-        List<UserMealWithExceed> list=new ArrayList<>();
-        UserMeal eat1=null;
-        UserMeal eat2=null;
-        UserMeal eat3=null;
+        List<UserMeal> list=new ArrayList<>();
+        List<UserMealWithExceed> result=new ArrayList<>();
+        boolean fat=true;
+        LocalDate day0=mealList.get(0).getDateTime().toLocalDate();
+        HashMap<List<UserMeal>,Boolean> data=new HashMap();
         int dayCalories=0;
         TimeUtil timeUtil=new TimeUtil();
         for (UserMeal userMeal:mealList) {
-            if (userMeal.getDescription().equals("Завтрак")){eat1=userMeal;dayCalories+=userMeal.getCalories();}
-            if (userMeal.getDescription().equals("Обед")){eat2=userMeal;dayCalories+=userMeal.getCalories();}
-            if (userMeal.getDescription().equals("Ужин")){
-                eat3=userMeal;
-                dayCalories+=userMeal.getCalories();
-                if (dayCalories>caloriesPerDay){
-                    if (timeUtil.isBetween(eat1.getDateTime().toLocalTime(),startTime,endTime))
-                        list.add(new UserMealWithExceed(eat1.getDateTime(),eat1.getDescription(),eat1.getCalories(),false));
-                    if (timeUtil.isBetween(eat2.getDateTime().toLocalTime(),startTime,endTime))
-                        list.add(new UserMealWithExceed(eat2.getDateTime(),eat2.getDescription(),eat2.getCalories(),false));
-                    if (timeUtil.isBetween(eat3.getDateTime().toLocalTime(),startTime,endTime))
-                        list.add(new UserMealWithExceed(eat3.getDateTime(),eat3.getDescription(),eat3.getCalories(),false));
-                }else {
-                    if (timeUtil.isBetween(eat1.getDateTime().toLocalTime(),startTime,endTime))
-                        list.add(new UserMealWithExceed(eat1.getDateTime(),eat1.getDescription(),eat1.getCalories(),true));
-                    if (timeUtil.isBetween(eat2.getDateTime().toLocalTime(),startTime,endTime))
-                        list.add(new UserMealWithExceed(eat2.getDateTime(),eat2.getDescription(),eat2.getCalories(),true));
-                    if (timeUtil.isBetween(eat3.getDateTime().toLocalTime(),startTime,endTime))
-                        list.add(new UserMealWithExceed(eat3.getDateTime(),eat3.getDescription(),eat3.getCalories(),true));
+            if (userMeal.getDateTime().toLocalDate().compareTo(day0) != 0) {
+                if (dayCalories > caloriesPerDay) {
+                    fat = false;
                 }
+                data.put(list, fat);
+                list = new ArrayList<>();
+                fat = true;
                 dayCalories=0;
+                day0=userMeal.getDateTime().toLocalDate();
+            }
+            dayCalories += userMeal.getCalories();
+            list.add(userMeal);
+            }
+        if (dayCalories > caloriesPerDay) {
+            fat = false;
+        }
+        data.put(list, fat);
+        for (List<UserMeal> l:data.keySet()) {
+            for (UserMeal um:l) {
+                if (timeUtil.isBetween(um.getDateTime().toLocalTime(),startTime,endTime))result.add(new UserMealWithExceed(um.getDateTime(),um.getDescription(),um.getCalories(),data.get(l)));
             }
         }
-        return list;
+        return result;
     }
+
 }
