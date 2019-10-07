@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.Arrays;
@@ -30,9 +31,7 @@ public class MealServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.debug("redirect to meals");
-        request.setAttribute("sdf",meals);
-        getServletContext().getRequestDispatcher("meals.jsp").forward(request, response);
-        //response.sendRedirect("meals.jsp");
+        request.setAttribute("list",meals);
+        getServletContext().getRequestDispatcher("/meals.jsp").forward(request, response);
     }
 }
-
