@@ -14,12 +14,20 @@
         <th> Дата </th>
         <th> Описание </th>
         <th> Каллории </th>
+        <th> Изменение </th>
+        <th> Удаление </th>
     </tr>
     <c:forEach items="${list}" var="mealTo">
         <tr style="background-color:${mealTo.excess ? 'red' : 'greenYellow'}">
             <td>${mealTo.dateTime.format(DateTimeFormatter.ofPattern("yyyy-mm-dd hh:mm"))}</td>
             <td>${mealTo.description}</td>
             <td>${mealTo.calories}</td>
+            <td><input type="submit" value="Изменить"></td>
+            <form action = "/users" method="post">
+                <td><input type="submit" value="Удалить"></td>
+                <td><input type="hidden" name="_method" value="delete"></td>
+            </form>
+
         </tr>
     </c:forEach>
 </table>
