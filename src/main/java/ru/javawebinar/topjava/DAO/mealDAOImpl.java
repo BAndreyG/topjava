@@ -4,10 +4,7 @@ import ru.javawebinar.topjava.model.MealTo;
 
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class mealDAOImpl implements mealDAO {
@@ -39,11 +36,16 @@ public class mealDAOImpl implements mealDAO {
 
     @Override
     public void updateMealTo(MealTo mealTo) {
-        //https://javarush.ru/groups/posts/2252-znakomstvo-s-maven-spring-mysql-hibernate-i-pervoe-crud-prilozhenie-chastjh-2
-    }
+        Optional<Integer> key=mealsDAO.entrySet()
+                .stream()
+                .filter(entry-> mealTo.equals(entry.getValue()))
+                .map(Map.Entry::getKey)
+                .findFirst();
+        if (key.isPresent())mealsDAO.put(key.get(),mealTo);
+        else mealsDAO.put(AUTO_ID.getAndIncrement(),mealTo); }
 
     @Override
     public MealTo getById(int id) {
-        return null;
+        return mealsDAO.get(id);
     }
 }
