@@ -61,6 +61,7 @@ public class MealsUtil {
 
         final List<MealTo> mealsTo = new ArrayList<>();
         meals.forEach(meal -> {
+            caloriesSumByDate.merge(meal.getDate(), meal.getCalories(), Integer::sum);
             if (TimeUtil.isBetween(meal.getTime(), startTime, endTime)) {
                 mealsTo.add(createTo(meal, caloriesSumByDate.get(meal.getDate()) > caloriesPerDay));
             }
