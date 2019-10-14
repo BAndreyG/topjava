@@ -6,6 +6,7 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
+import ru.javawebinar.topjava.web.SecurityUtil;
 
 import java.util.Collection;
 import java.util.List;
@@ -21,18 +22,18 @@ public class MealService {
     public MealService(MealRepository repository){this.repository=repository;}
 
     public Meal save(Meal meal) {
-        return repository.save(meal);
+        return repository.save(meal, SecurityUtil.authUserId());
     }
 
     public void delete(int id) throws NotFoundException {
-        checkNotFoundWithId(repository.delete(id), id);
+        checkNotFoundWithId(repository.delete(id,SecurityUtil.authUserId()), id);
     }
 
     public Meal get(int id) throws NotFoundException {
-        return checkNotFoundWithId(repository.get(id), id);
+        return checkNotFoundWithId(repository.get(id,SecurityUtil.authUserId()), id);
     }
 
     public Collection<Meal> getAll(){
-        return repository.getAll();
+        return repository.getAll(SecurityUtil.authUserId());
     }
 }
