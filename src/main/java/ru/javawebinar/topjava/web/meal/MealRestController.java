@@ -27,20 +27,3 @@ public class MealRestController extends AbstractMealController {
         return super.getAll();
     }
 }
-/*
-public Meal save(Meal meal) {
-        return repository.save(meal, SecurityUtil.authUserId());
-    }
-
-    public void delete(int id) throws NotFoundException {
-        checkNotFoundWithId(repository.delete(id,SecurityUtil.authUserId()), id);
-    }
-
-    public Meal get(int id) throws NotFoundException {
-        return checkNotFoundWithId(repository.get(id,SecurityUtil.authUserId()), id);
-    }
-
-    public Collection<Meal> getAll(){
-        return repository.getAll(SecurityUtil.authUserId());
-    }
- */

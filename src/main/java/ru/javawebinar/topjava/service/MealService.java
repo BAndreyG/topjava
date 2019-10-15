@@ -15,7 +15,7 @@ public class MealService {
     @Autowired
     public MealService(MealRepository repository){this.repository=repository;}
 
-    public Meal save(Meal meal,int userId) {
+    public Meal save(Meal meal,int userId) throws NotFoundException{
         return repository.save(meal,userId);
     }
 
@@ -27,7 +27,7 @@ public class MealService {
         return checkNotFoundWithId(repository.get(id,userId), id);
     }
 
-    public Collection<Meal> getAll(int userId){
+    public Collection<Meal> getAll(int userId)throws NotFoundException{
         return repository.getAll(userId);
     }
 }

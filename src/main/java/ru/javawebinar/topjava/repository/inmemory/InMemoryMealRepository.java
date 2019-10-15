@@ -15,10 +15,9 @@ import java.util.stream.Collectors;
 public class InMemoryMealRepository implements MealRepository {
     private Map<Integer, Meal> repository = new ConcurrentHashMap<>();
     private AtomicInteger counter = new AtomicInteger(0);
-
+//new Random().nextInt(2)
     {
-        MealsUtil.MEALS.forEach(p->save(p,new Random().nextInt(2)));
-        System.out.println(repository);
+        MealsUtil.MEALS.forEach(p->save(p,1));
     }
     public boolean checkValidUser(int id, int userId){
         return id==userId;
@@ -33,7 +32,7 @@ public class InMemoryMealRepository implements MealRepository {
                 return meal;
             }
             // treat case: update, but not present in storage
-            return repository.computeIfPresent(meal.getId(), (id, oldMeal) -> meal);
+            return repository.merge(meal.getId(),meal, (id, oldMeal) -> meal);
         }
         return null;
     }
