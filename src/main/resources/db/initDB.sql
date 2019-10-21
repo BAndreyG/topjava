@@ -5,16 +5,15 @@ DROP SEQUENCE IF EXISTS global_seq;
 
 CREATE SEQUENCE global_seq START WITH 100000;
 
-/*id  INTEGER PRIMARY KEY DEFAULT nextval('global_seq'), */
 CREATE TABLE meals
 (
-    id          INTEGER default 0 not null ,
-    idUser  INTEGER null ,
-    dateTime    TIMESTAMP DEFAULT now() NOT NULL,
+    id          INTEGER PRIMARY KEY             NOT NULL ,
+    userid      INTEGER                 NULL ,
+    datetime    TIMESTAMP DEFAULT now() NOT NULL,
     description VARCHAR                 NOT NULL ,
     calories    INTEGER DEFAULT 0       NOT NULL
 );
-CREATE UNIQUE INDEX meals_unique_datetime_idx ON meals (dateTime);
+CREATE UNIQUE INDEX meals_unique_id_idx ON meals (id);
 CREATE TABLE users
 (
     id               INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
