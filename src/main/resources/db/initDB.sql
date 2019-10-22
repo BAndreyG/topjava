@@ -14,7 +14,8 @@ CREATE TABLE meals
     calories    INTEGER DEFAULT 0       NOT NULL
 
 );
-CREATE UNIQUE INDEX meals_unique_id_idx ON meals (id);
+CREATE INDEX meals_id_index ON meals (id);
+--CREATE UNIQUE INDEX meals_unique_id_idx ON meals (id);
 CREATE TABLE users
 (
     id               INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),

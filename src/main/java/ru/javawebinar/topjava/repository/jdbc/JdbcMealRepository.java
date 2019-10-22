@@ -25,7 +25,7 @@ public class JdbcMealRepository implements MealRepository {
     private final SimpleJdbcInsert insertMeal;
 
     public JdbcMealRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
-        this.insertMeal = new SimpleJdbcInsert(jdbcTemplate).withTableName("meals");
+        this.insertMeal = new SimpleJdbcInsert(jdbcTemplate).withTableName("meals").usingGeneratedKeyColumns("id");
         this.jdbcTemplate = jdbcTemplate;
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
@@ -34,15 +34,18 @@ public class JdbcMealRepository implements MealRepository {
     public Meal save(Meal meal, int userId) {
         MapSqlParameterSource map = new MapSqlParameterSource()
                 .addValue("id", meal.getId())
-                .addValue("iduser", userId)
+                .addValue("userid", userId)
                 .addValue("datetime", meal.getDateTime())
                 .addValue("description", meal.getDescription())
                 .addValue("calories", meal.getCalories());
         if (meal.isNew()) {
             Number newKey = insertMeal.executeAndReturnKey(map);
             meal.setId(newKey.intValue());
-        } else if (namedParameterJdbcTemplate.update("UPDATE meals SET userid=:userId, datetime=:datetime, description=:description, " +
+        } else
+            if (namedParameterJdbcTemplate.update("UPDATE meals SET userid=:userid, datetime=:datetime, description=:description, " +
                 "calories=:calories WHERE id=:id", map) == 0) return null;
+        //else if (namedParameterJdbcTemplate.update("UPDATE meals SET userid=:userId, datetime=:datetime, description=:description, " +
+          //      "calories=:calories WHERE id=:id", map) == 0) return null;
         return meal;
     }
 
@@ -64,6 +67,7 @@ public class JdbcMealRepository implements MealRepository {
 
     @Override
     public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
-        return jdbcTemplate.query("SELECT * FROM meals WHERE datetime>:startDate AND datetime<:endDate AND userid=:userId  ORDER BY datetime",ROW_MAPPER);
+        return jdbcTemplate.query("SELECT * FROM meals WHERE datetime>=? AND datetime<=?AND userid=? ORDER BY datetime",ROW_MAPPER,startDate,endDate,userId);
+        //return jdbcTemplate.query("SELECT * FROM meals WHERE datetime>:startDate AND datetime<:endDate AND userid=:userId  ORDER BY datetime",ROW_MAPPER);
     }
 }
