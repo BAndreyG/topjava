@@ -7,11 +7,12 @@ CREATE SEQUENCE global_seq START WITH 100000;
 
 CREATE TABLE meals
 (
-    id          INTEGER PRIMARY KEY             NOT NULL ,
+    id          SERIAL PRIMARY KEY ,
     userid      INTEGER                 NULL ,
     datetime    TIMESTAMP DEFAULT now() NOT NULL,
     description VARCHAR                 NOT NULL ,
     calories    INTEGER DEFAULT 0       NOT NULL
+
 );
 CREATE UNIQUE INDEX meals_unique_id_idx ON meals (id);
 CREATE TABLE users
