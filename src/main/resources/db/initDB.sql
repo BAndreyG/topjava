@@ -15,7 +15,7 @@ CREATE TABLE meals
 
 );
 CREATE INDEX meals_id_index ON meals (id);
---CREATE UNIQUE INDEX meals_unique_id_idx ON meals (id);
+CREATE UNIQUE INDEX meals_unique_datetime_idx ON meals (datetime);
 CREATE TABLE users
 (
     id               INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
