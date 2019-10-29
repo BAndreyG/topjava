@@ -35,8 +35,8 @@ public class InMemoryAdminRestControllerSpringTest {
     public void delete() throws Exception {
         controller.delete(UserTestData.USER_ID);
         Collection<User> users = controller.getAll();
-        Assert.assertEquals(1, users.size());
-        Assert.assertEquals(ADMIN, users.iterator().next());
+        Assert.assertEquals(users.size(), 1);
+        Assert.assertEquals(users.iterator().next(), ADMIN);
     }
 
     @Test(expected = NotFoundException.class)
