@@ -30,12 +30,6 @@ public class InMemoryMealRepository implements MealRepository {
         MealTestData.MEALS.forEach(meal -> userMeals.map.put(meal.getId(), meal));
     }
 
-    {
-        InMemoryBaseRepository<Meal> userMeals = new InMemoryBaseRepository<>();
-        usersMealsMap.put(UserTestData.USER_ID, userMeals);
-        MealTestData.MEALS.forEach(meal -> userMeals.map.put(meal.getId(), meal));
-    }
-
     @Override
     public Meal save(Meal meal, int userId) {
         Objects.requireNonNull(meal, "meal must not be null");
