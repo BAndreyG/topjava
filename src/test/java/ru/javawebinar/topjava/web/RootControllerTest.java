@@ -43,7 +43,7 @@ class RootControllerTest extends AbstractControllerTest {
 
                             @Override
                             public void assertion(List<Meal> actual) throws AssertionError {
-                                assertMatch(actual.,MEALS);
+                                assertMatch(actual,MEALS);
                             }
                         }));
         ;
