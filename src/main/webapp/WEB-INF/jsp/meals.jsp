@@ -7,6 +7,8 @@
 <body>
 <jsp:include page="fragments/bodyHeader.jsp"/>
 
+<%--<table class="table table-striped" id="datatable">--%>
+
 <section>
     <h3><spring:message code="meal.title"/></h3>
 
