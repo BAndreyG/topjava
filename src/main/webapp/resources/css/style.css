@@ -13,6 +13,10 @@ tr[data-userEnabled="false"] {
     opacity: 0.3;
 }
 
+tr[data-userEnabled="false"] {
+    opacity: 0.3;
+}
+
 /*https://getbootstrap.com/docs/4.0/examples/sticky-footer/sticky-footer.css*/
 html {
     position: relative;
