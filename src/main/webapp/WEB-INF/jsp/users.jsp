@@ -19,7 +19,7 @@
         </button>
         <table class="table table-striped" id="datatable">
             <thead>
-            <tr>
+            <tr data-userEnabled="${user.enabled}">
                 <th><spring:message code="user.name"/></th>
                 <th><spring:message code="user.email"/></th>
                 <th><spring:message code="user.roles"/></th>
