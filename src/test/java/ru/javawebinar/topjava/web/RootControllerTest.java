@@ -31,7 +31,7 @@ class RootControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void getMeals() throws Exception {
+    void testMeals() throws Exception {
         perform(doGet("meals").auth(USER))
                 .andDo(print())
                 .andExpect(status().isOk())
